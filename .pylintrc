@@ -1,0 +1,6 @@
+[MASTER]
+disable=
+    C0114, C0116, C0115, E1101
+
+# C*    - Docstrings 
+# E1101 - Class 'Any Models' has no 'objects' member (no-member)

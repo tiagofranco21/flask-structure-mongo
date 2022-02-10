@@ -1,0 +1,28 @@
+version: "3.3"
+
+volumes:
+  mongodb_data:
+    driver: local
+
+services:
+  mongoDB:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/var/lib/mongodb/data
+    hostname: ${MONGO_HOST}
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    command: mongod --port ${MONGO_PORT}
+  #    ports:
+  #      - 27018:${MONGO_PORT}
+  web:
+    build: ./app_name
+    volumes: [ './:/home/project/app_name' ]
+    env_file:
+      - ./.env
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mongoDB

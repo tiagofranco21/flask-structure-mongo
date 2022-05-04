@@ -4,7 +4,7 @@ from mongoengine import ValidationError
 from app_name.api.schemas.book import book_schema, book_schema_dump
 from app_name.models import BookAuthor, Book
 from app_name.api.restplus import api
-from app_name.api.middleware import token_required
+from app_name.api.middleware import access_required
 
 ns = api.namespace(
     'books', description='Operations related to books')
@@ -101,7 +101,7 @@ class BookItem(Resource):
     @classmethod
     @ns.response(204, 'Book successfully deleted.')
     @api.doc(security='Authorization')
-    @token_required
+    @access_required(["master"])
     def delete(cls, book_id):
         """
         Deletes Book.
